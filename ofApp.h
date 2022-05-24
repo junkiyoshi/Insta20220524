@@ -22,8 +22,6 @@ public:
 
 	ofEasyCam cam;
 
-	vector<glm::vec3> base_location_list;
-
-	vector<tuple<ofColor, glm::vec3, float>> sphere_list; // BodyColor, Location, size
-	int number_of_sphere;
+	vector<tuple<glm::vec3, float>> box_list; // Location, size
+	int number_of_box;
 };

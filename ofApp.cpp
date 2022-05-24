@@ -26,10 +26,10 @@ void ofApp::setup() {
 	ofPixels pixels;
 	fbo.readToPixels(pixels);
 
-	this->number_of_sphere = 1800;
-	while (this->sphere_list.size() < this->number_of_sphere) {
+	this->number_of_box = 1800;
+	while (this->box_list.size() < this->number_of_box) {
 
-		auto radius = this->sphere_list.size() < 110 ? ofRandom(5, 20) : ofRandom(2, 20);
+		auto radius = this->box_list.size() < 110 ? ofRandom(5, 20) : ofRandom(2, 20);
 		int x = ofRandom(0, 720);
 		int y = ofRandom(0, 720);
 		int z = ofRandom(-50, 50);
@@ -43,9 +43,9 @@ void ofApp::setup() {
 		auto tmp_location = glm::vec3(x - ofGetWindowWidth() * 0.5, y - ofGetWindowHeight() * 0.5, z);
 
 		bool flag = true;
-		for (int i = 0; i < this->sphere_list.size(); i++) {
+		for (int i = 0; i < this->box_list.size(); i++) {
 
-			if (glm::distance(tmp_location, get<1>(this->sphere_list[i])) < get<2>(this->sphere_list[i]) + radius) {
+			if (glm::distance(tmp_location, get<0>(this->box_list[i])) < get<1>(this->box_list[i]) + radius) {
 
 				flag = false;
 				break;
@@ -54,12 +54,8 @@ void ofApp::setup() {
 
 		if (flag) {
 
-			ofColor color;
-			color.setHsb(ofRandom(255), 200, 255);
-
 			auto size = (radius * 2) / sqrt(3);
-
-			this->sphere_list.push_back(make_tuple(color, tmp_location, size));
+			this->box_list.push_back(make_tuple(tmp_location, size));
 		}
 	}
 }
@@ -77,10 +73,10 @@ void ofApp::draw() {
 	ofRotateX(180);
 	ofRotateY(sin(ofGetFrameNum() * 0.02) * 360);
 
-	for (int i = 0; i < this->sphere_list.size(); i++) {
+	for (int i = 0; i < this->box_list.size(); i++) {
 
-		auto location = get<1>(this->sphere_list[i]);
-		auto size = get<2>(this->sphere_list[i]);
+		auto location = get<0>(this->box_list[i]);
+		auto size = get<1>(this->box_list[i]);
 
 		ofPushMatrix();
 		ofTranslate(location);
